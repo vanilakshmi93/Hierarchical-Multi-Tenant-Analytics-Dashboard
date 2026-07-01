@@ -9,7 +9,7 @@ const router = Router();
 router.use(authenticate);
 
 router.get('/team/:teamId/latest', async (req: Request, res: Response) => {
-  const { teamId } = req.params;
+  const { teamId } = req.params as { teamId: string };
   if (!req.user!.teamIds.includes(teamId)) {
     return res.status(403).json({ error: 'Access denied' });
   }
@@ -28,7 +28,7 @@ router.get('/team/:teamId/latest', async (req: Request, res: Response) => {
 });
 
 router.get('/team/:teamId/:metricKey/history', async (req: Request, res: Response) => {
-  const { teamId, metricKey } = req.params;
+  const { teamId, metricKey } = req.params as { teamId: string; metricKey: string };
   const hours = parseInt(req.query.hours as string) || 24;
 
   if (!req.user!.teamIds.includes(teamId)) {
@@ -50,7 +50,7 @@ router.get('/team/:teamId/:metricKey/history', async (req: Request, res: Respons
 });
 
 router.get('/team/:teamId/:metricKey/stats', async (req: Request, res: Response) => {
-  const { teamId, metricKey } = req.params;
+  const { teamId, metricKey } = req.params as { teamId: string; metricKey: string };
   if (!req.user!.teamIds.includes(teamId)) {
     return res.status(403).json({ error: 'Access denied' });
   }
@@ -60,7 +60,7 @@ router.get('/team/:teamId/:metricKey/stats', async (req: Request, res: Response)
 });
 
 router.get('/team/:teamId/anomalies', async (req: Request, res: Response) => {
-  const { teamId } = req.params;
+  const { teamId } = req.params as { teamId: string };
   if (!req.user!.teamIds.includes(teamId)) {
     return res.status(403).json({ error: 'Access denied' });
   }
@@ -71,7 +71,7 @@ router.get('/team/:teamId/anomalies', async (req: Request, res: Response) => {
 
 // KPIs
 router.get('/team/:teamId/kpis', async (req: Request, res: Response) => {
-  const { teamId } = req.params;
+  const { teamId } = req.params as { teamId: string };
   if (!req.user!.teamIds.includes(teamId)) {
     return res.status(403).json({ error: 'Access denied' });
   }
@@ -89,7 +89,7 @@ router.get('/team/:teamId/kpis', async (req: Request, res: Response) => {
 });
 
 router.post('/team/:teamId/kpis', async (req: Request, res: Response) => {
-  const { teamId } = req.params;
+  const { teamId } = req.params as { teamId: string };
   const { name, formula, numerator_metric, denominator_metric } = req.body;
 
   if (!req.user!.teamIds.includes(teamId)) {
@@ -117,7 +117,7 @@ router.post('/team/:teamId/kpis', async (req: Request, res: Response) => {
 
 // Custom metrics (Tier 3)
 router.get('/team/:teamId/custom', async (req: Request, res: Response) => {
-  const { teamId } = req.params;
+  const { teamId } = req.params as { teamId: string };
   if (!req.user!.teamIds.includes(teamId)) {
     return res.status(403).json({ error: 'Access denied' });
   }
@@ -129,7 +129,7 @@ router.get('/team/:teamId/custom', async (req: Request, res: Response) => {
 });
 
 router.post('/team/:teamId/custom', async (req: Request, res: Response) => {
-  const { teamId } = req.params;
+  const { teamId } = req.params as { teamId: string };
   const { name, metric_key, description, unit } = req.body;
 
   if (!req.user!.teamIds.includes(teamId)) {

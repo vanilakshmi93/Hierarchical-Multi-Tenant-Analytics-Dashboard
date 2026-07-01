@@ -8,7 +8,7 @@ const router = Router();
 router.use(authenticate);
 
 router.get('/team/:teamId', async (req: Request, res: Response) => {
-  const { teamId } = req.params;
+  const { teamId } = req.params as { teamId: string };
   if (!req.user!.teamIds.includes(teamId)) {
     return res.status(403).json({ error: 'Access denied' });
   }

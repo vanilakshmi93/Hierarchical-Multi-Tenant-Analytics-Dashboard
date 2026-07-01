@@ -49,12 +49,12 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
 
 export function requireTeamAccess(teamIdParam = 'teamId') {
   return async (req: Request, res: Response, next: NextFunction) => {
-    const teamId = req.params[teamIdParam] || req.body.team_id || req.query.team_id;
+    const teamId = (req.params[teamIdParam] || req.body.team_id || req.query.team_id) as string | undefined;
     if (!teamId) {
       return res.status(400).json({ error: 'Team ID required' });
     }
 
-    if (!req.user?.teamIds.includes(teamId as string)) {
+    if (!req.user?.teamIds.includes(teamId)) {
       return res.status(403).json({ error: 'Access denied to this team' });
     }
 

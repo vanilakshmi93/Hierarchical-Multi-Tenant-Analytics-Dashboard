@@ -8,7 +8,7 @@ const router = Router();
 router.use(authenticate);
 
 router.get('/team/:teamId', requireTeamAccess('teamId'), async (req: Request, res: Response) => {
-  const { teamId } = req.params;
+  const { teamId } = req.params as { teamId: string };
   const result = await rlsQuery(req.user!.userId, req.user!.teamIds, async (client) => {
     return client.query(
       `SELECT d.*, u.name as created_by_name
@@ -23,7 +23,7 @@ router.get('/team/:teamId', requireTeamAccess('teamId'), async (req: Request, re
 });
 
 router.get('/:dashboardId', async (req: Request, res: Response) => {
-  const { dashboardId } = req.params;
+  const { dashboardId } = req.params as { dashboardId: string };
   const dashResult = await rlsQuery(req.user!.userId, req.user!.teamIds, async (client) => {
     return client.query('SELECT * FROM dashboards WHERE id = $1', [dashboardId]);
   });
@@ -45,7 +45,7 @@ router.get('/:dashboardId', async (req: Request, res: Response) => {
 });
 
 router.post('/team/:teamId', requireTeamAccess('teamId'), requirePermission('write'), async (req: Request, res: Response) => {
-  const { teamId } = req.params;
+  const { teamId } = req.params as { teamId: string };
   const { name, description, project_id } = req.body;
 
   const result = await rlsQuery(req.user!.userId, req.user!.teamIds, async (client) => {
@@ -61,7 +61,7 @@ router.post('/team/:teamId', requireTeamAccess('teamId'), requirePermission('wri
 });
 
 router.put('/:dashboardId', async (req: Request, res: Response) => {
-  const { dashboardId } = req.params;
+  const { dashboardId } = req.params as { dashboardId: string };
   const { name, description, layout } = req.body;
 
   const existing = await rlsQuery(req.user!.userId, req.user!.teamIds, async (client) => {
@@ -95,7 +95,7 @@ router.put('/:dashboardId', async (req: Request, res: Response) => {
 });
 
 router.delete('/:dashboardId', async (req: Request, res: Response) => {
-  const { dashboardId } = req.params;
+  const { dashboardId } = req.params as { dashboardId: string };
   const existing = await rlsQuery(req.user!.userId, req.user!.teamIds, async (client) => {
     return client.query('SELECT team_id FROM dashboards WHERE id = $1', [dashboardId]);
   });
@@ -122,7 +122,7 @@ router.delete('/:dashboardId', async (req: Request, res: Response) => {
 
 // Widgets
 router.post('/:dashboardId/widgets', async (req: Request, res: Response) => {
-  const { dashboardId } = req.params;
+  const { dashboardId } = req.params as { dashboardId: string };
   const { widget_type, title, metric_key, config, position } = req.body;
 
   const dash = await rlsQuery(req.user!.userId, req.user!.teamIds, async (client) => {
@@ -150,7 +150,7 @@ router.post('/:dashboardId/widgets', async (req: Request, res: Response) => {
 });
 
 router.put('/:dashboardId/widgets/:widgetId', async (req: Request, res: Response) => {
-  const { dashboardId, widgetId } = req.params;
+  const { dashboardId, widgetId } = req.params as { dashboardId: string; widgetId: string };
   const { title, metric_key, config, position } = req.body;
 
   const dash = await rlsQuery(req.user!.userId, req.user!.teamIds, async (client) => {
