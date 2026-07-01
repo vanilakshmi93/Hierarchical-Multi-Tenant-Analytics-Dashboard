@@ -52,7 +52,7 @@ router.get('/teams/:teamId/members', async (req: Request, res: Response) => {
 });
 
 router.get('/teams/:teamId/projects', async (req: Request, res: Response) => {
-  const { teamId } = req.params;
+  const teamId = req.params.teamId as string;
   if (!req.user!.teamIds.includes(teamId)) {
     return res.status(403).json({ error: 'Access denied' });
   }

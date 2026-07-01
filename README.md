@@ -103,6 +103,14 @@ Once deployed, the public URLs will be:
 - Frontend: `https://hierarchical-analytics-frontend.onrender.com`
 - Backend API: `https://hierarchical-analytics-backend.onrender.com/api`
 
+### Netlify deployment
+
+This repo can also host the frontend on Netlify. Use `netlify.toml` for static site configuration and set the frontend env var:
+
+- `VITE_API_URL = https://<render-backend-service>.onrender.com/api`
+
+Netlify will build the frontend from `frontend/` and publish `frontend/dist`.
+
 ## Testing Data Isolation
 
 1. Login as `finance@acme.com` — see only Finance dashboards and metrics
