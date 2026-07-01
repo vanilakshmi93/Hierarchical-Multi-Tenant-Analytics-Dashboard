@@ -81,6 +81,28 @@ Open http://localhost:5173
 | finance@acme.com | password123 | Editor | Finance only |
 | marketing@acme.com | password123 | Editor | Marketing only |
 
+## Deployment
+
+This repo is ready for deployment on Render:
+
+1. Push your code to GitHub.
+2. Create a Render account and connect your GitHub repo.
+3. Render will detect `render.yaml` and create:
+   - a Docker backend service using `backend/Dockerfile`
+   - a static frontend site using `frontend/dist`
+   - a managed PostgreSQL database
+4. In Render, make sure the frontend service uses:
+   - `VITE_API_URL = https://hierarchical-analytics-backend.onrender.com/api`
+5. In Render, make sure the backend service uses:
+   - `JWT_SECRET = super_secret_jwt_key`
+   - `CORS_ORIGIN = https://hierarchical-analytics-frontend.onrender.com`
+   - `DATABASE_URL` from the managed database connection string
+
+Once deployed, the public URLs will be:
+
+- Frontend: `https://hierarchical-analytics-frontend.onrender.com`
+- Backend API: `https://hierarchical-analytics-backend.onrender.com/api`
+
 ## Testing Data Isolation
 
 1. Login as `finance@acme.com` — see only Finance dashboards and metrics

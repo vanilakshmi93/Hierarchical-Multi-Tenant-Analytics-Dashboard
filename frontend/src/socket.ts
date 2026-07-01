@@ -6,7 +6,7 @@ function getSocketUrl() {
   if (import.meta.env.DEV) {
     return 'http://localhost:3001';
   }
-  return undefined;
+  return import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL.replace(/\/api$/i, '')}` : undefined;
 }
 
 export function getSocket(): Socket {
