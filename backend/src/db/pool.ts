@@ -3,8 +3,12 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const connectionString = process.env.DATABASE_URL;
+const useSsl = connectionString?.includes('render.com') || connectionString?.includes('postgres://') && !connectionString.includes('localhost');
+
 export const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString,
+  ssl: useSsl ? { rejectUnauthorized: false } : undefined,
 });
 
 export async function withRlsContext<T>(
