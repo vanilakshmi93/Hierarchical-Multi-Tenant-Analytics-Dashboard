@@ -17,7 +17,6 @@ services:
           name: analytics-db
           property: connectionString
 
-staticSites:
   - type: static_site
     name: hierarchical-analytics-frontend
     env: node
